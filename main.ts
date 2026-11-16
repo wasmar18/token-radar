@@ -35,6 +35,16 @@ function arg(name: string, fallback: string): string {
 }
 
 const inputArg = arg('input', '/input');
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  process.stdout.write(
+    'token radar: rank pre-token protocols by implied value\n' +
+      'usage: node main.ts [--input <snapshot.json|directory>] [--output <dir>]\n' +
+      '  --input   snapshot file or the directory holding it (default /input)\n' +
+      '  --output  output directory (default $MAKEFUN_OUTPUT_DIR or /output)\n' +
+      'reads the sealed snapshot, writes board.json, data.js, dashboard/, screenshots/ and dossier.json\n',
+  );
+  process.exit(0);
+}
 const inputFile = inputArg.endsWith('.json') ? inputArg : join(inputArg, 'snapshot.json');
 if (!existsSync(inputFile)) {
   process.stderr.write(`token radar: no snapshot at ${inputFile}: pass --input <snapshot.json|directory> or mount the sealed /input\n`);
